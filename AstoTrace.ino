@@ -554,9 +554,11 @@ void loop() {
     for (int i = 0; i <= 300; i++){
       delay(1);
       if (joy_button == 0){
-        event == "lockscreen";
+        lcd.clear();
+        event = "lockscreen";
       }
       i += 1;
+      lcd.backlight();
     }
   }
   
