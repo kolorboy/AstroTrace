@@ -126,6 +126,7 @@
   int       location_x;
   // button condition
     float pressed = false;
+    bool bug = true;
 
 // void setup
   void setup() {
@@ -490,6 +491,7 @@ void loop() {
     if (joy_button == 0){
       event = "azimuth screen";
       lcd.clear();
+      lcd.backlight();
       cursor = 1;
       cursor_limit_right = 7;
       cursor_limit_left = 1;
@@ -551,18 +553,31 @@ void loop() {
     event = "done";
   }
   if (event == "done"){
-    for (int i = 0; i <= 300; i++){
+
+    while(bug){
+      joy_button = 1;
+      bug = (joy_button == 0 ? true : false);
+    }
+
+    for (int i = 0; i <= 300000; i++){
       delay(1);
+      joy_button = digitalRead(3);
+
       if (joy_button == 0){
         lcd.clear();
         event = "lockscreen";
+        delay(300);
+        break;
       }
-      i += 1;
-      lcd.backlight();
+      else {
+        i += 1;
+      }
     }
+    lcd.noBacklight();
+    event = "lockscreen";
   }
   
   else {
-    Serial.print("");
+    Serial.print(event);
   }
 }
